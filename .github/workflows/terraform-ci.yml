@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: check
+        run: ls -la
       - name: Login to Azure with OIDC
         uses: azure/login@v2
         with:
