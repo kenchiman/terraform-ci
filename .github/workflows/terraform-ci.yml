@@ -29,6 +29,14 @@ jobs:
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
+        
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+            
       - name: Terraform Init
         id: init
         run: terraform init
