@@ -1,5 +1,10 @@
 name: Terraform test
 
+env:
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  
 on:
   workflow_dispatch
 
@@ -7,35 +12,21 @@ jobs:
   terraform_test:
     permissions:
       contents: read
-      pages: write
       id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: check
         run: ls -la
-      - name: Login to Azure with OIDC
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: terraform setup
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.4.2
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
-        
-      - name: Azure CLI script
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
             
       - name: Terraform Init
         id: init
