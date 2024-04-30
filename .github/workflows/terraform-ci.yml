@@ -26,14 +26,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: 'Terraform Init'
-      uses: hashicorp/terraform-github-actions@master
+    - name: Get Terraform Version
+      id: terrform-version
+      uses: bigwheel/get-terraform-version-action@v1.2.0
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
       with:
-        tf_actions_version: ${{ env.TF_VERSION }}
-        tf_actions_subcommand: 'init'
-        
-    - name: 'Terraform Plan'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: ${{ env.TF_VERSION }}
-        tf_actions_subcommand: 'plan'
+        terraform_version: ${{ steps.terrform-version.outputs.terraform-version }}
+
+    - run: terraform init
+    - id: plan
+      run: terraform plan -no-color
