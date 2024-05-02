@@ -35,6 +35,5 @@ jobs:
       with:
         azcliversion: 2.36.0
         inlineScript: |
-          sudo apt install -y net-tools
           IP=$(curl ifconfig.io)
           echo $IP
