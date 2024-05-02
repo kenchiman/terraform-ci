@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install Curl
-      run: sudo apt update && sudo apt install -y net net-tools
+      run: sudo apt install -y net net-tools
 
     - name: Azure login
       uses: azure/login@v2
