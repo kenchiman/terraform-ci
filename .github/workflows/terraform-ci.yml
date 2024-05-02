@@ -36,20 +36,4 @@ jobs:
         azcliversion: latest
         inlineScript: |
           IP=$(curl ifconfig.io)
-          az eventhubs namespace network-rule-set ip-rule add \
-          --resource-group "${{ github.event.inputs.resource_group }}" \ 
-          --namespace-name "${{ github.event.inputs.evhns }}" \
-          --ip-rule ip-address=${IP}/32 action=Allow
-
-    - name: Get Terraform Version
-      id: terrform-version
-      uses: bigwheel/get-terraform-version-action@v1.2.0
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: ${{ steps.terrform-version.outputs.terraform-version }}
-
-    - run: terraform init
-    - id: plan
-      run: terraform plan -no-color
+          echo $IP
