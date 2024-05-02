@@ -1,7 +1,10 @@
 name: Terraform test
  
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      resource_group:
+      evhns:
 
 jobs:
   terraform:
@@ -16,15 +19,27 @@ jobs:
 
     runs-on: ubuntu-latest
  
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-#    defaults:
-#      run:
-#        shell: bash
- 
     steps:
-    # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Azure CLI script
+      uses: azure/cli@v2
+      with:
+        azcliversion: latest
+        inlineScript: |
+          IP=$(curl ifconfig.io)
+          az eventhubs namespace network-rule-set ip-rule add \
+          --resource-group "${{ github.event.inputs.resource_group }}" 
+          --namespace-name "${{ github.event.inputs.evhns }}" 
+          --ip-rule ip-address=${IP}/32 action=Allow
 
     - name: Get Terraform Version
       id: terrform-version
