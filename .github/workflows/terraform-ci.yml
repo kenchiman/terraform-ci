@@ -36,6 +36,6 @@ jobs:
         azcliversion: latest
         inlineScript: |
           az --version
-          apt install -y curl
+          apk add curl
           IP=$(curl ifconfig.io)
           echo $IP
