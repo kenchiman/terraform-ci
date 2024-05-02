@@ -23,6 +23,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Install Curl
+      run: sudo apt update && sudo apt install -y net net-tools
+
     - name: Azure login
       uses: azure/login@v2
       with:
@@ -31,9 +34,9 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Azure CLI script
-      uses: azure/cli@v1
+      uses: azure/cli@v2
       with:
-        azcliversion: 2.59.0
+        azcliversion: latest
         inlineScript: |
           IP=$(curl ifconfig.io)
           echo $IP
