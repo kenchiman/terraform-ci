@@ -47,8 +47,16 @@ jobs:
           --namespace-name "${{ github.event.inputs.evhns }}" \
           --ip-rule ip-address=${IP}/32 action=Allow
 
+    - name: Get Position1
+      run: pwd
+    - name: Get Position2
+      run: ls -la
+    - name: Get Position3
+      run: cd ..
+    - name: Get Position4
+      run: pwd
     - name: Get Position
-      shell: pwd && ls -la && cd .. && ls -la
+      run: ls -la
       
     - name: Get Terraform Version
       id: terrform-version
