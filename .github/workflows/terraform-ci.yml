@@ -42,6 +42,9 @@ jobs:
           --namespace-name "${{ github.event.inputs.evhns }}" \
           --ip-rule ip-address=${IP}/32 action=Allow
 
+    - name: Get Position
+      run: pwd
+      
     - name: Get Terraform Version
       id: terrform-version
       uses: bigwheel/get-terraform-version-action@v1.2.0
