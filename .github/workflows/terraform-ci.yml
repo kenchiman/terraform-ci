@@ -48,7 +48,7 @@ jobs:
           --ip-rule ip-address=${IP}/32 action=Allow
 
     - name: Get Position
-      run: pwd && ls -la && cd .. && ls -la
+      shell: pwd && ls -la && cd .. && ls -la
       
     - name: Get Terraform Version
       id: terrform-version
