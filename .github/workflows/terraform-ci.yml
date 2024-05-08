@@ -22,6 +22,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
 
     - name: Azure login
       uses: azure/login@v2
@@ -46,7 +48,7 @@ jobs:
           --ip-rule ip-address=${IP}/32 action=Allow
 
     - name: Get Position
-      run: pwd
+      run: pwd && ls -la && cd .. && ls -la
       
     - name: Get Terraform Version
       id: terrform-version
